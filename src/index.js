@@ -110,6 +110,7 @@ function renderGallery(request) {
     captionsData: `alt`,
     captionDelay: 250,
   });
+  lightbox.refresh();
 
   refs.gallery.addEventListener('click', onCl, { once: true });
 
