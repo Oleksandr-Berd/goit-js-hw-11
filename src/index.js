@@ -106,16 +106,15 @@ function renderGallery(request) {
 
   refs.gallery.insertAdjacentHTML('afterbegin', markUp);
 
-  let lightbox = new SimpleLightbox('.gallery__image', {
-    captionsData: `alt`,
-    captionDelay: 250,
-  });
-  lightbox.refresh();
-
   refs.gallery.addEventListener('click', onCl, { once: true });
 
   function onCl(evt) {
     evt.preventDefault();
-    // console.log(evt);
+    let lightbox = new SimpleLightbox('.gallery__image', {
+      captionsData: `alt`,
+      captionDelay: 250,
+    });
+    lightbox.refresh();
+    console.log(refs.gallery);
   }
 }
