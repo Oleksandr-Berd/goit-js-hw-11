@@ -53,11 +53,13 @@ async function getGallery(searchQuerry) {
 
 function onSearch(evt) {
   evt.preventDefault();
+  page = 1;
   searchQuerry = evt.currentTarget.elements.query.value;
   if (searchQuerry.length === 0) {
     refs.gallery.innerHTML = '';
     return;
   }
+  //   refs.loadMore.classList.replace('.button-hidden', '.load-more');
   getGallery(searchQuerry).then(renderGallery).catch(errorGallery);
 }
 
