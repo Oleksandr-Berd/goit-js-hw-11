@@ -7,6 +7,42 @@ const axios = require('axios').default;
 const API_KEY = '29768584-66d59ea1e394ad82ebc4cd906';
 const BASE_URL = `https://pixabay.com/api/?key=${API_KEY}`;
 
+class LoadMoreBtn {
+  constructor({ selector, hidden = false }) {
+    this.refs = this.getRefs(selector);
+
+    hidden && this.hide();
+  }
+  getRefs(selector) {
+    const refs = {};
+    refs.button = document.querySelector(selector);
+    refs.label = refs.button.querySelector('.label');
+    refs.spinner = refs.button.querySelector('.spinner');
+
+    return refs;
+  }
+
+  enable() {
+    this.refs.button.disable = false;
+    this.refs.label.textContent = 'Load more';
+    this.refs.spinner.classList.add('is-hidden');
+  }
+
+  disable() {
+    this.refs.button.disable = true;
+    this.refs.label.textContent = 'Load...';
+    this.refs.spinner.classList.remove('is-hidden');
+  }
+
+  show() {
+    this.refs.spinner.classList.remove('is-hidden');
+  }
+
+  hide() {
+    this.refs.spinner.classList.add('is-hidden');
+  }
+}
+
 let searchQuerry = '';
 
 let page = 1;
@@ -16,7 +52,7 @@ const refs = {
   submit: document.querySelector('[type=submit]'),
   form: document.querySelector('#search-form'),
   gallery: document.querySelector('.gallery'),
-  loadMore: document.querySelector('.load-more'),
+  //   loadMore: document.querySelector('[data-action=load-more]'),
 };
 
 refs.form.style.backgroundColor = '#0000D1';
@@ -26,11 +62,20 @@ refs.form.style.height = '35px';
 refs.submit.style.borderRadius = '10px';
 refs.input.style.borderRadius = '10px';
 
+const loadMoreBtn = new LoadMoreBtn({
+  selector: '[data-action=load-more]',
+  hidden: true,
+});
+
 refs.form.addEventListener('submit', onSearch);
 
 refs.input.addEventListener('input', refresh);
 
-refs.loadMore.addEventListener('click', onLoadMore);
+refs.gallery.addEventListener('click', onCl, { once: true });
+
+loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
+
+console.log(loadMoreBtn.refs.button);
 
 function refresh(evt) {
   const check = evt.currentTarget.value;
@@ -47,7 +92,7 @@ async function getGallery(searchQuerry) {
     );
     return response;
   } catch (error) {
-    console.log(error);
+    Notiflix.Notify.failure(error);
   }
 }
 
@@ -59,18 +104,32 @@ function onSearch(evt) {
     refs.gallery.innerHTML = '';
     return;
   }
-  //   refs.loadMore.classList.replace('.button-hidden', '.load-more');
+
+  loadMoreBtn.show();
+  loadMoreBtn.disable();
+
   getGallery(searchQuerry).then(renderGallery).catch(errorGallery);
 }
 
 function onLoadMore(evt) {
   evt.preventDefault();
   console.log(evt);
+  loadMoreBtn.disable();
   getGallery(searchQuerry).then(renderGallery).catch(errorGallery);
 }
 
 function errorGallery(error) {
-  console.log(error);
+  Notiflix.Notify.failure(error);
+}
+
+let lightbox = new SimpleLightbox('.gallery__image', {
+  captionsData: `alt`,
+  captionDelay: 250,
+});
+
+function onCl(evt) {
+  evt.preventDefault();
+  console.log(lightbox);
 }
 
 function renderGallery(request) {
@@ -110,15 +169,7 @@ function renderGallery(request) {
 
   refs.gallery.insertAdjacentHTML('afterbegin', markUp);
 
-  refs.gallery.addEventListener('click', onCl, { once: true });
+  lightbox.refresh();
 
-  function onCl(evt) {
-    evt.preventDefault();
-
-    let lightbox = new SimpleLightbox('.gallery__image', {
-      captionsData: `alt`,
-      captionDelay: 250,
-    });
-    lightbox.refresh();
-  }
+  loadMoreBtn.enable();
 }

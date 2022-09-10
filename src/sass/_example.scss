@@ -60,7 +60,6 @@ button {
   text-align: center;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
   transition: background-color 250ms var(--tran-hover),
     color 250ms var(--tran-hover),
     box-shadow 250ms var(--tran-hover);
@@ -177,7 +176,7 @@ body {
   padding-left: 20px;
 }
 
-.load-more {
+.btn-primary {
   display: flex;
   margin-bottom: 20px;
   margin-top: 20px;
@@ -185,6 +184,25 @@ body {
   margin-right: auto;
 }
 
-.button-hidden{
-  display: hidden;
+.spinner-border-sm {
+ width: 1rem;
+ height: 1rem;
+ border-width: .2em; 
+}
+
+.spinner-border{
+  display: inline-block;
+  vertical-align: text-bottom;
+  border: .25em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spinner-border .75s linear infinite;
+}
+
+button.is-hidden{
+  display: none;
+}
+
+button > .spinner.is-hidden{
+display: none;
 }
