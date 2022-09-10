@@ -61,9 +61,9 @@ function onSearch(evt) {
   getGallery(searchQuerry).then(renderGallery).catch(errorGallery);
 }
 
-function onLoadMore(searchQuerry) {
-  refs.gallery.innerHTML = '';
-  page += 1;
+function onLoadMore(evt) {
+  evt.preventDefault();
+  console.log(evt);
   getGallery(searchQuerry).then(renderGallery).catch(errorGallery);
 }
 
@@ -72,6 +72,8 @@ function errorGallery(error) {
 }
 
 function renderGallery(request) {
+  refs.gallery.innerHTML = '';
+  page += 1;
   const data = request.data.hits;
   const dataArray = Object.values(data);
   const markUp = dataArray
@@ -110,11 +112,11 @@ function renderGallery(request) {
 
   function onCl(evt) {
     evt.preventDefault();
+
     let lightbox = new SimpleLightbox('.gallery__image', {
       captionsData: `alt`,
       captionDelay: 250,
     });
     lightbox.refresh();
-    console.log(refs.gallery);
   }
 }
