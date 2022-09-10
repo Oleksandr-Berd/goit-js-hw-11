@@ -22,16 +22,19 @@ refs.submit.style.borderRadius = '10px';
 refs.input.style.borderRadius = '10px';
 
 refs.form.addEventListener('submit', onSearch);
-
+refs.gallery.addEventListener('click', onCl);
 refs.input.addEventListener('input', refresh);
 
-refs.gallery.addEventListener('click', onCl, { once: true });
+// if (searchQuerry === '') {
+//   refs.gallery.innerHTML = '';
+// }
 
 function refresh(evt) {
-  const check = evt.currentTarget.value;
-  if (check.length === 0) {
+  let check = evt.target.value;
+  console.log(evt.target.value);
+  if (check === '') {
+    searchQuerry = '';
     refs.gallery.innerHTML = '';
-    return;
   }
 }
 
@@ -50,7 +53,7 @@ function onSearch(evt) {
   evt.preventDefault();
   page = 1;
   searchQuerry = evt.currentTarget.elements.query.value;
-  if (searchQuerry.length === 0) {
+  if (searchQuerry === '') {
     refs.gallery.innerHTML = '';
     return;
   }
@@ -68,8 +71,7 @@ let lightbox = new SimpleLightbox('.gallery__image', {
 });
 
 function onCl(evt) {
-  evt.preventDefault();
-  console.log(lightbox);
+  console.log(evt);
 }
 
 function renderGallery(request) {
@@ -114,11 +116,7 @@ function renderGallery(request) {
 
 const onEntry = entries => {
   entries.forEach(entry => {
-    if (searchQuerry.length === 0) {
-      refs.gallery.innerHTML = '';
-      return;
-    }
-    if (entry.isIntersecting) {
+    if (entry.isIntersecting && searchQuerry !== '') {
       refs.gallery.innerHTML = '';
       getGallery(searchQuerry).then(renderGallery).catch(errorGallery);
     }
@@ -131,5 +129,3 @@ const options = {
 const observer = new IntersectionObserver(onEntry, options);
 
 observer.observe(refs.sentinel);
-
-console.log(observer);
