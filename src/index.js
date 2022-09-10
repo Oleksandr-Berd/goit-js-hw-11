@@ -2,48 +2,9 @@ import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-// import './js/io';
-
-// import debounce from 'lodash.debounce';
 const axios = require('axios').default;
 const API_KEY = '29768584-66d59ea1e394ad82ebc4cd906';
 const BASE_URL = `https://pixabay.com/api/?key=${API_KEY}`;
-
-// class LoadMoreBtn {
-//   constructor({ selector, hidden = false }) {
-//     this.refs = this.getRefs(selector);
-
-//     hidden && this.hide();
-//   }
-//   getRefs(selector) {
-//     const refs = {};
-//     refs.button = document.querySelector('.btn-primary');
-//     refs.label = document.querySelector('.label');
-//     refs.spinner = document.querySelector('.spinner');
-
-//     return refs;
-//   }
-
-//   enable() {
-//     this.refs.button.disable = false;
-//     this.refs.label.textContent = 'Load more';
-//     this.refs.spinner.classList.add('is-hidden');
-//   }
-
-//   disable() {
-//     this.refs.button.disable = true;
-//     this.refs.label.textContent = 'Load...';
-//     this.refs.spinner.classList.remove('is-hidden');
-//   }
-
-//   show() {
-//     this.refs.spinner.classList.remove('is-hidden');
-//   }
-
-//   hide() {
-//     this.refs.spinner.classList.add('is-hidden');
-//   }
-// }
 
 let searchQuerry = '';
 
@@ -55,28 +16,16 @@ const refs = {
   form: document.querySelector('#search-form'),
   gallery: document.querySelector('.gallery'),
   sentinel: document.querySelector('.sentinel'),
-  //   loadMore: document.querySelector('[data-action=load-more]'),
 };
 
-refs.form.style.backgroundColor = '#0000D1';
-refs.form.style.display = 'flex';
-refs.form.style.justifyContent = 'center';
-refs.form.style.height = '35px';
 refs.submit.style.borderRadius = '10px';
 refs.input.style.borderRadius = '10px';
-
-// const loadMoreBtn = new LoadMoreBtn({
-//   selector: '[data-action=load-more]',
-//   hidden: true,
-// });
 
 refs.form.addEventListener('submit', onSearch);
 
 refs.input.addEventListener('input', refresh);
 
 refs.gallery.addEventListener('click', onCl, { once: true });
-
-// loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
 
 function refresh(evt) {
   const check = evt.currentTarget.value;
@@ -106,18 +55,8 @@ function onSearch(evt) {
     return;
   }
 
-  //   loadMoreBtn.show();
-  //   loadMoreBtn.disable();
-
   getGallery(searchQuerry).then(renderGallery).catch(errorGallery);
 }
-
-// function onLoadMore(evt) {
-//   evt.preventDefault();
-//   console.log(evt);
-//   loadMoreBtn.disable();
-//   getGallery(searchQuerry).then(renderGallery).catch(errorGallery);
-// }
 
 function errorGallery(error) {
   Notiflix.Notify.failure(error);
@@ -171,8 +110,6 @@ function renderGallery(request) {
   refs.gallery.insertAdjacentHTML('afterbegin', markUp);
 
   lightbox.refresh();
-
-  //   loadMoreBtn.enable();
 }
 
 const onEntry = entries => {
@@ -187,7 +124,9 @@ const onEntry = entries => {
     }
   });
 };
-const options = {};
+const options = {
+  rootMargin: '150px',
+};
 
 const observer = new IntersectionObserver(onEntry, options);
 
