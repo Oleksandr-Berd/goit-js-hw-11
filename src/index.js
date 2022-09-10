@@ -115,6 +115,6 @@ function renderGallery(request) {
 
   function onCl(evt) {
     evt.preventDefault();
-    console.log(evt);
+    // console.log(evt);
   }
 }
