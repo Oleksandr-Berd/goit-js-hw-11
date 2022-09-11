@@ -65,11 +65,6 @@ function errorGallery(error) {
   Notiflix.Notify.failure(error);
 }
 
-let lightbox = new SimpleLightbox('.gallery__image', {
-  captionsData: `alt`,
-  captionDelay: 250,
-});
-
 function onCl(evt) {
   console.log(evt);
 }
@@ -82,7 +77,7 @@ function renderGallery(request) {
   const markUp = dataArray
     .map(el => {
       return `
-      <a class="gallery__image href="${el.largeImageURL}">
+      <a class="gallery__image" href="${el.largeImageURL}">
       <div class="photo-card">
         <img class="gallery__item" src="${el.webformatURL}" alt="${el.tags}" data-source="${el.largeImageURL}" loading="lazy" />
        
@@ -111,7 +106,11 @@ function renderGallery(request) {
 
   refs.gallery.insertAdjacentHTML('afterbegin', markUp);
 
-  lightbox.refresh();
+  // lightbox.refresh();
+  let lightbox = new SimpleLightbox('.gallery a', {
+    captionsData: `alt`,
+    captionDelay: 250,
+  });
 }
 
 const onEntry = entries => {
