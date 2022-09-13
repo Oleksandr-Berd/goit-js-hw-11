@@ -79,7 +79,7 @@ function renderGallery(request) {
       return `
       <a class="gallery__image" href="${el.largeImageURL}">
       <div class="photo-card">
-        <img class="gallery__item" src="${el.webformatURL}" alt="${el.tags}" data-source="${el.largeImageURL}" width="640px" height = "480px" loading="lazy" />
+        <img class="gallery__item" src="${el.webformatURL}" alt="${el.tags}" data-source="${el.largeImageURL}" width="640" height = "480" loading="lazy" />
        
         <div class="info">
         <p class="info-item">
