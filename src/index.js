@@ -61,7 +61,7 @@ function onSearch(evt) {
 }
 
 function errorGallery(error) {
-  // Notiflix.Notify.failure(error);
+  Notiflix.Notify.failure(error);
   console.log(error);
 }
 
@@ -101,11 +101,18 @@ function renderGallery(request) {
     })
     .join('');
 
-  Notiflix.Notify.success(`Hooray! We found ${hurray.totalHits} images.`);
+  if (hurray.totalHits === 0) {
+    Notiflix.Notify.info(`Sorry! We didn't find anything(((.`);
+  } else if (hurray.totalHits - page * perPage < 40) {
+    Notiflix.Notify.info(
+      `We're sorry, but you've reached the end of search results.`
+    );
+  } else {
+    Notiflix.Notify.success(`Hooray! We found ${hurray.totalHits} images.`);
+  }
 
   refs.gallery.insertAdjacentHTML('afterbegin', markUp);
 
-  // lightbox.refresh();
   let lightbox = new SimpleLightbox('.gallery a', {
     captionsData: `alt`,
     captionDelay: 250,

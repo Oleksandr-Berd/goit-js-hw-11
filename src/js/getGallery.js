@@ -16,7 +16,7 @@ async function getGallery(searchQuerry) {
     );
     return response;
   } catch (error) {
-    // Notiflix.Notify.failure(error);
+    Notiflix.Notify.failure(error);
   }
 }
 
