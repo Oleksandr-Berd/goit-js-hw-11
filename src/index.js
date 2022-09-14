@@ -4,9 +4,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import API from './js/getGallery.js';
 
-const axios = require('axios').default;
 const API_KEY = '29768584-66d59ea1e394ad82ebc4cd906';
-const BASE_URL = `https://pixabay.com/api/?key=${API_KEY}`;
 
 let searchQuerry = '';
 
@@ -103,7 +101,7 @@ function renderGallery(request) {
 
   if (hurray.totalHits === 0) {
     Notiflix.Notify.info(`Sorry! We didn't find anything(((.`);
-  } else if (hurray.totalHits - page * perPage < 40) {
+  } else if ((page - 1) * perPage + hurrayHits.length >= hurray.Totalhits) {
     Notiflix.Notify.info(
       `We're sorry, but you've reached the end of search results.`
     );
